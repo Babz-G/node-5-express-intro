@@ -1,44 +1,120 @@
-// ---------------------------------
-// Boilerplate Code to Set Up Server
-// ---------------------------------
+// ------------------------------------------
+// ✨✨ Boilerplate Code to Set Up Server ✨✨
+// ------------------------------------------
 
-// ---------------------------------
-// Helper Functions
-// ---------------------------------
+// importing our node modules
 
-// ---------------------------------
-// Our very first API Endpoints
-// ---------------------------------
+import express from "express";
+import fs from "fs/promises";
 
-// --------------------------------
-// 🚀 LEVEL 1 CHALLENGES 
-// --------------------------------
+// boilerplate- creating an instance of the express module
+// so that we can use all the methods that come w/ it
+const app = express();
 
-// 1. 🏆 Add a /goodbye endpoint that responds with "Goodbye, see you later!"
+// tell express which port to listen to to recieve requests
+const port = 3000;
 
-// 2. 🏆 Add a /happy-birthday endpoint that responds with "Happy birthday!!!"
+// this server will be receiving json and responding in json.
+app.use(express.json());
 
-// --------------------------------
-// 🚀 LEVEL 2 CHALLENGES — ADDING DYNAMIC PARAMETERS
-// --------------------------------
+app.listen(port, () => {
+  console.log(`My server is listening on port: ${port}`);
+});
 
-// 1. 🏆 Add a /happy-birthday/:name endpoint says "Happy birthday, [name]!!!"
+// -----------------------------------------
+// ✨✨ Helper Functions ✨✨
+// -----------------------------------------
 
-// 2. 🏆 Add a /say-hello/:name/:language endpoint that says hello in multiple languages. Examples:
+// -----------------------------------------
+// ✨✨ Our very first API Endpoints ✨✨node
+// -----------------------------------------
+
+// app.get takes in two parameters:
+// 1. the endpoint, which defines what url path the server should listen to.
+// 2. the callback function, whioch is the function that defines what we do
+//    when we reeive a request a this endpoint
+//    the callback function takes in 2 parameters the request & response.
+//    res.send sends back a string as a response
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.get("say-good-morning", (req, res) => {
+  res.send("Good Morning!");
+});
+
+app.get("/get-user/Babz", (req, res) => {
+  const userName = req.params.userName;
+  res.send(`Hello ${userName}`);
+});
+
+app.get("/order-tacos/:protein/:numTacos", (req, res) => {
+  const protein = req.params.protein;
+  const numTacos = req.params.numTacos;
+
+  res.send(`Thanks for your oder! You ordered ${numTacos} ${protein} tacos.`);
+});
+
+// -----------------------------------------
+// ✅ ✨✨ LEVEL 1 CHALLENGES ✨✨node index.js
+// -----------------------------------------
+
+// ✅  1. 🏆 Add a /goodbye endpoint that responds with "Goodbye, see you later!"
+
+app.get("/goodbye", (req, res) => {
+  res.send("Goodbye, see you later!!");
+});
+
+// ✅ 2. 🏆 Add a /happy-birthday endpoint that responds with "Happy birthday!!!"
+app.get("/happy-birthday", (req, res) => {
+  res.send("Happy Birthday");
+});
+
+// -------------------------------------------
+// ✅  ✨✨ LEVEL 2 CHALLENGES — ADDING DYNAMIC PARAMETERS ✨✨
+// -------------------------------------------
+
+// ✅  1. 🏆 Add a /happy-birthday/:name endpoint says "Happy birthday, [name]!!!"
+
+app.get("/happy-birthday/:name", (req, res) => {
+  const name = req.params.name;
+
+  res.send(`Happy Birthday, ${name}!!!`);
+});
+
+// ✅ 2. 🏆 Add a /say-hello/:name/:language endpoint that says hello in multiple languages. Examples:
 //      - If language = "English", respond with "Hello, [name]!"
 //      - If language = "Spanish", respond with "Hola, [name]!"
 //      - If language = "Vietnamese", respond with "Xin chao, [name]!"
 //      - If language = "Turkish", respond with "Merhaba, [name]!"
-//      - Add as many languages as you want! 
-//      - Otherwise, respond with "Language not supported."" 
+//      - Add as many languages as you want!
+//      - Otherwise, respond with "Language not supported.""
 
-// --------------------------------
-// 🚀 LEVEL 3 CHALLENGES — EVEN MORE DYNAMIC PARAMETERS
-// --------------------------------
+app.get("/say-hello/:name/:language", (req, res) => {
+  const name = req.params.name;
+  const language = req.params.language;
 
-// 1. 🏆 Add a /calculate-dog-years/:dogName/:humanYears endpoint that calculates a dog's age in dog years. Refer to your dogAgeCalculator.js file. 
+  if (language === "English") {
+    res.send(`Hello, ${name}!`);
+  } else if (language === "Spanish") {
+    res.send(`Hola, ${name}!`);
+  } else if (language === "Vietnamese") {
+    res.send(`Xin chao, ${name}!`);
+  } else if (language === "Turkish") {
+    res.send(`Merhaba, ${name}!`);
+  } else {
+    res.send("Language not supported.");
+  }
+});
 
-// 2. 🏆 Add a /calculate-tip/:bill/:tipPercentage/:numGuests endpoint that calculates the amount each guests owes. Refer to your tipCalculator.js file. 
+// -------------------------------------
+// ✨ ✨LEVEL 3 CHALLENGES — EVEN MORE DYNAMIC PARAMETERS ✨✨
+// -------------------------------------
+
+// 1. 🏆 Add a /calculate-dog-years/:dogName/:humanYears endpoint that calculates a dog's age in dog years. Refer to your dogAgeCalculator.js file.
+
+// 2. 🏆 Add a /calculate-tip/:bill/:tipPercentage/:numGuests endpoint that calculates the amount each guests owes. Refer to your tipCalculator.js file.
 
 // --------------------------------
 // LEVEL 4 CHALLENGES — USING THE FILE SYSTEM MODULE
@@ -48,7 +124,7 @@
 
 // 2. 🏆 Add a /get-all-pizza-orders endpoint that responds with the array of pizza orders. Use the pizza-orders-data.json file in this folder.
 
-// 3. 🏆 Add a /get-one-pizza-order/:index endpoint that responds with the specified pizza order. 
+// 3. 🏆 Add a /get-one-pizza-order/:index endpoint that responds with the specified pizza order.
 
 // --------------------------------
 // 🚀 LEVEL 5 CHALLENGES — USING THIRD-PARTY MODULES
@@ -57,4 +133,3 @@
 // 1. 🏆 Add a /is-leap-year/:year endpoint that responds with whether the specified year is a leap year. Use the moment third-party node module and refer to your leap-year.js file.
 
 // 2. 🏆 Add a /get-signs/:month/:day/:year endpoint that responds with the user's astrological and zodiac signs based on their inputted birthday. Use the horoscope third-party node module and refer to your sign-finder.js file.
-
