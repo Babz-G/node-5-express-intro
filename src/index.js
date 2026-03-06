@@ -109,13 +109,45 @@ app.get("/say-hello/:name/:language", (req, res) => {
 });
 
 // -------------------------------------
-// ✨ ✨LEVEL 3 CHALLENGES — EVEN MORE DYNAMIC PARAMETERS ✨✨
+// ✨✨ LEVEL 3 CHALLENGES — EVEN MORE DYNAMIC PARAMETERS ✨✨
 // -------------------------------------
 
-// 1. 🏆 Add a /calculate-dog-years/:dogName/:humanYears endpoint that calculates a dog's age in dog years. Refer to your dogAgeCalculator.js file.
+//  ✅  1. 🏆 Add a /calculate-dog-years/:dogName/:humanYears endpoint that calculates a
+// dog's age in dog years. Refer to your dogAgeCalculator.js file.
 
-// 2. 🏆 Add a /calculate-tip/:bill/:tipPercentage/:numGuests endpoint that calculates the amount each guests owes. Refer to your tipCalculator.js file.
+app.get("/calculate-dog-years/:dogName/:humanYears", (req, res) => {
+  const dogName = req.params.dogName;
+  const humanYears = req.params.humanYears;
+  const humanYearsNum = Number(humanYears);
 
+  let furryAge;
+
+  if (humanYearsNum === 1) {
+    furryAge = 15;
+  } else if (humanYearsNum === 2) {
+    furryAge = 24;
+  } else {
+    furryAge = 24 + (humanYearsNum - 2) * 5;
+  }
+  res.send(
+    `Your dog, ${dogName}, is ${humanYearsNum} years old, but that's ${furryAge} years old in dog years!`
+  );
+});
+// 2. 🏆 Add a /calculate-tip/:bill/:tipPercentage/:numGuests endpoint that calculates
+// the amount each guests owes. Refer to your tipCalculator.js file.
+
+app.get("/calculate-tip/:bill/:tipPercentage/:numGuests", (req, res) => {
+  const bill = Number(req.params.bill);
+  const tipPercentage = Number(req.params.tipPercentage);
+  const numGuests = Number(req.params.numGuests);
+
+  let tipAmount = (bill * tipPercentage) / 100;
+  let amountPerGuest = tipAmount / numGuests;
+
+  res.send(
+    `Each guest owes $${amountPerGuest} for a ${tipPercentage}% tip on a $${bill} bill.`
+  );
+});
 // --------------------------------
 // LEVEL 4 CHALLENGES — USING THE FILE SYSTEM MODULE
 // --------------------------------
